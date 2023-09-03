@@ -1,0 +1,50 @@
+---
+export interface Props {
+  post: any;
+}
+
+import { Image } from 'astro:assets';
+import { getSlugFromPath } from '../utils/get-slug-from-path';
+import { parseISO, format } from 'date-fns';
+
+const { post } = Astro.props;
+const url = '/books/' + getSlugFromPath(post.file);
+
+const date = parseISO(post.frontmatter.date);
+const formattedDate = format(date, 'LLLL d, yyyy');
+---
+
+<div class="flex flex-col gap-4 rounded-lg border-4 border-primary-600 p-5 after:border-blue-800">
+  <a href={url}>
+    <div class="flex gap-20">
+      <Image
+        src={post.frontmatter.imageURL}
+        alt={post.frontmatter.title}
+        height="300"
+        width="200"
+        class="rounded-lg"
+        transition:animate="slide"
+        transition:name="img"
+      />
+      <div class="flex-col justify-center gap-10 text-lg">
+        <p transition:name="title">
+          {post.frontmatter.title}
+        </p>
+        <p transition:name="author">
+          {post.frontmatter.author}
+        </p>
+        <div>
+          <p transition:name="rating">
+            {post.frontmatter.rating}
+          </p>
+          <p transition:name="pages">
+            {post.frontmatter.pages} pages
+          </p>
+          <p>
+            {formattedDate} - {post.frontmatter.description}
+          </p>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>

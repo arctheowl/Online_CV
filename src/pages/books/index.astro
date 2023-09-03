@@ -1,0 +1,56 @@
+---
+import '../../style/global.css';
+import { ViewTransitions } from 'astro:transitions';
+import Layout from '../../layouts/Layout.astro';
+import BookPreview from '../../components/BookPreview.astro';
+
+const siteTitle = "Liam's Books";
+const description = 'Thoughts on books I have read.';
+
+// Data Fetching: List all Markdown posts in the repo.
+
+const allPosts = await Astro.glob('../../content/books/*.md');
+const sortedPosts = allPosts
+  .sort((a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf())
+  .filter((p) => p.frontmatter.hidden !== true);
+---
+
+<html lang="en">
+  <head>
+    <ViewTransitions />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="/favicon.svg" />
+    <meta name="description" content={description} />
+    <meta name="twitter:image" content="https://t3.gg/images/twitter.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@t3dotgg" />
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="https://t3.gg/images/twitter.png" />
+    <title>{siteTitle}</title>
+    <meta name="theme-color" content="#000000" />
+
+    <script defer data-domain="astro.t3.gg" src="https://t3.gg/js/script.js"></script>
+  </head>
+  <Layout title={siteTitle} description={description}>
+    <main>
+      <div class="page flex h-full w-full flex-col items-center">
+        <h1 class="pt-2 text-4xl font-bold">Books I've Read</h1>
+        <h2 class="px-8 text-center text-xl xl:px-0">
+          I try to write about the books I read, but I don't always get around to it. Any not on
+          this list I you can check out on my <a
+            href="https://fleetbookclub.com"
+            target="_blank"
+            class="text-blue-400 underline">bookclub's website</a
+          >.
+        </h2>
+        <div class="grid w-full grid-cols-1 gap-4 p-4 lg:grid-cols-3 lg:p-8 xl:gap-8">
+          {sortedPosts.map((p) => <BookPreview post={p} />)}
+        </div>
+      </div>
+    </main>
+  </Layout>
+
+
+</html>

@@ -1,0 +1,28 @@
+---
+export interface Props {
+  post: { title: string; date: string; imageURL: string };
+}
+
+import { Image } from 'astro:assets';
+import { parseISO, format } from 'date-fns';
+
+const { post } = Astro.props;
+
+const date = parseISO(post.date);
+const formatted = format(date, 'LLLL d, yyyy');
+---
+
+<div class="lg:w-[42rem] xl:w-[64rem]" transition:name="title">
+  <time datetime={date.toString()}>{formatted}</time>
+  <div>
+    <Image
+      src={post.imageURL}
+      alt={post.title}
+      width={400}
+      height={600}
+      transition:name="img"
+      transition:animate="slide"
+      class="rounded-lg"
+    />
+  </div>
+</div>

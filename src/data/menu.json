@@ -1,0 +1,22 @@
+[
+    {
+        "title": "About",
+        "url": "/about"
+    },
+    {
+        "title": "Projects",
+        "url": "/projects"
+    },
+    {
+        "title": "Books",
+        "url": "/books"
+    },
+    {
+        "title": "Chess",
+        "url": "/chess"
+    },
+    {
+        "title": "Contact",
+        "url": "/contact"
+    }
+]
